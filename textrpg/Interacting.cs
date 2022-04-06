@@ -14,6 +14,12 @@ namespace TextRpg
             foreach (ItemStack i in itemstacks) list += i.name + "\n";
             return list.TrimEnd();
         }
+        private static string AggregateEffects(in List<ActiveEffect> effects)
+        {
+            string list = "";
+            foreach (ActiveEffect i in effects) list += i.effect.name + "(" + i.duration + ")\n";
+            return list.TrimEnd();
+        }
         private static string AggregateLocation(ushort[] location)
         {
             string loc = "";
@@ -24,7 +30,7 @@ namespace TextRpg
         {
             string loc = "";
             int j = 1;
-            foreach (ushort[] i in Database.connectionsdict[location]) loc += j++ + ". " + Database.placesDict[i].name + "\n";
+            foreach (ushort[] i in Database.connectionsDict[location]) loc += j++ + ". " + Database.placesDict[i].name + "\n";
             return loc.TrimEnd().TrimEnd(',');
         }
         private static string AggregateClues(ushort[] location)
@@ -39,6 +45,8 @@ namespace TextRpg
         {
             return @$"Вы в {Database.placesDict[player.location].name + " {" + AggregateLocation(player.location) + "} - " + Database.placesDict[player.location].description}
 У Вас {player.healthInt}/{player.currentStats.maxHealth} здоровья и {player.mana}/{player.currentStats.maxMana} маны
+На вас действуют эффекты:
+{AggregateEffects(player.effects)}
 У Вас в инвентаре({player.inventory.Count}/{player.currentStats.inventorySize}):
 {AggregateInventory(in player.inventory)}
 Вы можете пойти в:

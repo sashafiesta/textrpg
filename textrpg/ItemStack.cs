@@ -12,8 +12,8 @@ namespace TextRpg
         public string itemId;
         public string nbt;
 
-        public string name => Database.itemdict[itemId].name;
-        public string description => Database.itemdict[itemId].description;
+        public string name => Database.itemsDict[itemId].name;
+        public string description => Database.itemsDict[itemId].description;
 
         public ItemStack(Item item)
         {

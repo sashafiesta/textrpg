@@ -7,11 +7,14 @@ namespace TextRpg
         public PlayerStats baseStats;
         public PlayerStats currentStats;
         public double health;
+
         public int healthInt => (int)Math.Ceiling(health);
         public double mana;
         public int manaInt => (int)Math.Ceiling(mana);
 
         public bool inDialog;
+
+        public List<ActiveEffect> effects;
 
         public ushort[] location;
         public List<ushort[]> locTargets;
@@ -26,7 +29,13 @@ namespace TextRpg
 
         public void PerformTurn()
         {
+            List<int> remIndex = new List<int>();
+            for (int i = 0; i < effects.Count; i++)
+                if (effects[i].Tick(this)) remIndex.Add(i);
+            foreach (int i in remIndex)
+                effects.RemoveAt(i);
 
+            health = Math.Min(health, currentStats.maxHealth);
         }
 
         public bool ActivateItem(ItemActivable itemC)
@@ -57,6 +66,7 @@ namespace TextRpg
             dimension = 0;
             inventory = new List<ItemStack>();
             inDialog = false;
+            effects = new List<ActiveEffect>();
         }
         public Player(ulong playerId)
         {

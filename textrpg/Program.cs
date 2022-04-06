@@ -11,12 +11,13 @@ namespace TextRpg
             Database.RegisterItems();
             Database.RegisterConnections();
             Database.RegisterPlaces();
+            Database.RegisterEffects();
             User ses = new User(0);
             ses.StartSession(Session.EntryType.Console);
             Player p = new Player() { health = 100 };
             new Functions.Function(Functions.PlayerFunctions.ModifyHealth, -20).Invoke(p);
             ses.player = p;
-            p.inventory.Add(new ItemStack(Database.itemdict["main.item.useableitem"]));
+            p.inventory.Add(new ItemStack(Database.itemsDict["main.item.useableitem"]));
 
             while(true)
             {
@@ -26,7 +27,7 @@ namespace TextRpg
                 Console.Write("> ");
                 string command = Console.ReadLine();
                 if (command == "exit") break;
-                TextActionProcessor(command,ses);
+                if (TextActionProcessor(command, ses)) ses.player.PerformTurn();
             }
         }
 
@@ -37,9 +38,10 @@ namespace TextRpg
             string[] cmdSplitted = command.Split();
             switch(cmdSplitted[0])
             {
+                case "skip": return true;
                 case "move":
                     {
-                        activeUser.player.location = Database.connectionsdict[activeUser.player.location][Convert.ToInt32(cmdSplitted[1]) - 1];
+                        activeUser.player.location = Database.connectionsDict[activeUser.player.location][Convert.ToInt32(cmdSplitted[1]) - 1];
                         return true;
                     }
                 case "check":
@@ -94,7 +96,7 @@ namespace TextRpg
                     {
                         foreach(ItemStack item in activeUser.player.inventory)
                         {
-                            Item tmpitem = Database.itemdict[item.itemId];
+                            Item tmpitem = Database.itemsDict[item.itemId];
                             if (Item.CanBeActivated(tmpitem))
                             {
                                 if (tmpitem.name.ToLower().StartsWith(cmdSplitted[1].ToLower()))

@@ -12,7 +12,7 @@ namespace TextRpg
         public delegate object PlayerFunction(Player player, params object[] param);
         public enum PlayerFunctions : uint
         {
-            DoNothing, ModifyHealth, ExitClue, Move
+            DoNothing, ModifyHealth, ExitClue, Move, AddEffect
         }
         private static readonly PlayerFunction[] PlayerFuncs =
         {
@@ -23,7 +23,10 @@ namespace TextRpg
             //ExitClue()
             delegate(Player player, object[] param) { player.inDialog = false; return null; },
             //Move(ushort[] location)
-            delegate(Player player, object[] param) { player.location = (ushort[])param[0]; return null; }
+            delegate(Player player, object[] param) { player.location = (ushort[])param[0]; return null; },
+            //AddEffect(string effectId, uint duration, object params)
+            #warning TODO: Finish Function
+            delegate(Player player, object[] param) { player.effects.Add(new ActiveEffect(Database.effectsDict[Convert.ToString(param[0])], 1+Convert.ToUInt32(param[1])){ keepDefaultParameters = true}); return null; }
         };
         public class Function
         {
@@ -31,6 +34,8 @@ namespace TextRpg
             public object[] FunctionValue;
             public object Invoke(Player player)
                 => PlayerFuncs[(uint)Func](player, FunctionValue);
+            public object Invoke(Player player, object[] functionValue)
+                => PlayerFuncs[(uint)Func](player, functionValue);
 
             public Function()
             {
