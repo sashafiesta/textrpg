@@ -62,7 +62,7 @@ namespace TextRpg
             OnHitTarget = target;
             OnHitAttacker = attacker;
             itemType = ItemType.Weapon;
-
+            maxStackSize = 1;
         }
     }
     class ItemWearable : Item
@@ -93,7 +93,8 @@ namespace TextRpg
         public PlayerStats MulStats;
         public ItemWearable(Functions.Function function)
         {
-            itemType = ItemType.Weapon;
+            itemType = ItemType.Wearable;
+            maxStackSize = 1;
         }
     }
 }

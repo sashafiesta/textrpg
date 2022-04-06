@@ -21,7 +21,7 @@ namespace TextRpg
                     description = "Basically a Test Item",
                     name = "Test Item",
                 },
-                new ItemConsumeable( new Functions.Function[]{ new(Functions.PlayerFunctions.ModifyHealth, new object[] { -50 }) })
+                new ItemConsumeable(new Functions.Function[]{ new(Functions.PlayerFunctions.ModifyHealth,-50 ) })
                 {
                     id = "main.item.useableitem",
                     description = "Basically a Useable Item",
@@ -50,7 +50,7 @@ namespace TextRpg
         {
             Place[] places = new Place[]
             {
-                new Place(new ushort[] {0}, "Позиция один", "Каменная платформа"),
+                new Place(new ushort[] {0}, "Позиция один", "Каменная платформа", new Clue("Нарисованный мелом круг", "Круг так и манит встать в центр", new Action("Встать в центр", "Вас перенесло в другую локацию", new Functions.Function(Functions.PlayerFunctions.Move,new ushort[] {1})))),
                 new Place(new ushort[] {1}, "Позиция два", "Деревянная платформа")
             };
             foreach (Place place in places)

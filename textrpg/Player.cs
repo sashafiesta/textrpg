@@ -11,6 +11,8 @@ namespace TextRpg
         public double mana;
         public int manaInt => (int)Math.Ceiling(mana);
 
+        public bool inDialog;
+
         public ushort[] location;
         public List<ushort[]> locTargets;
         public uint dimension;
@@ -54,6 +56,7 @@ namespace TextRpg
             location = new ushort[] { 0 };
             dimension = 0;
             inventory = new List<ItemStack>();
+            inDialog = false;
         }
         public Player(ulong playerId)
         {

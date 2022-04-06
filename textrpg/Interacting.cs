@@ -24,9 +24,17 @@ namespace TextRpg
         {
             string loc = "";
             int j = 1;
-            foreach (ushort[] i in Database.connectionsdict[location]) loc += j++ + ". {" + AggregateLocation(i) + "}\n";
+            foreach (ushort[] i in Database.connectionsdict[location]) loc += j++ + ". " + Database.placesDict[i].name + "\n";
             return loc.TrimEnd().TrimEnd(',');
         }
+        private static string AggregateClues(ushort[] location)
+        {
+            string loc = "";
+            int j = 1;
+            foreach (Clue i in Database.placesDict[location].clues) loc += j++ + ". " + i.name + "\n";
+            return loc.TrimEnd().TrimEnd(',');
+        }
+
         public static string GetFullStatus(Player player)
         {
             return @$"Вы в {Database.placesDict[player.location].name + " {" + AggregateLocation(player.location) + "} - " + Database.placesDict[player.location].description}
@@ -34,7 +42,10 @@ namespace TextRpg
 У Вас в инвентаре({player.inventory.Count}/{player.currentStats.inventorySize}):
 {AggregateInventory(in player.inventory)}
 Вы можете пойти в:
-{AggregateConnections(player.location)}";
+{AggregateConnections(player.location)}
+Вы можете осмотреть:
+{AggregateClues(player.location)}
+";
         }
     }
 }

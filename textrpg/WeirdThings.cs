@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace TextRpg
 {
     class WeirdThings
     {
+        public static int IntMax(int a, int b)
+            => (a > b) ? a : b;
+        public static int IntMin(int a, int b)
+            => (a < b) ? a : b;
+        public static void Delay(int ms)
+            => System.Threading.Thread.Sleep(ms);
+
         public class ConnectionsEqCmp : IEqualityComparer<ushort[]>
         {
             public bool Equals(ushort[] x, ushort[] y)

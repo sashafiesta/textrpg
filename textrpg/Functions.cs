@@ -12,14 +12,18 @@ namespace TextRpg
         public delegate object PlayerFunction(Player player, params object[] param);
         public enum PlayerFunctions : uint
         {
-            DoNothing, ModifyHealth
+            DoNothing, ModifyHealth, ExitClue, Move
         }
         private static readonly PlayerFunction[] PlayerFuncs =
         {
             //DoNothing()
             delegate(Player player, object[] param) { return null; },
             //ModifyHealth(float amount)
-            delegate(Player player, object[] param) { player.health += Convert.ToDouble(param[0]); return null; }
+            delegate(Player player, object[] param) { player.health += Convert.ToDouble(param[0]); return null; },
+            //ExitClue()
+            delegate(Player player, object[] param) { player.inDialog = false; return null; },
+            //Move(ushort[] location)
+            delegate(Player player, object[] param) { player.location = (ushort[])param[0]; return null; }
         };
         public class Function
         {
@@ -32,6 +36,16 @@ namespace TextRpg
             {
                 Func = PlayerFunctions.DoNothing;
                 FunctionValue = Array.Empty<object>();
+            }
+            public Function(PlayerFunctions function)
+            {
+                Func = function;
+                FunctionValue = Array.Empty<object>();
+            }
+            public Function(PlayerFunctions function, object functionval)
+            {
+                Func = function;
+                FunctionValue = new object[] { functionval };
             }
             public Function(PlayerFunctions function, object[] functionval)
             {

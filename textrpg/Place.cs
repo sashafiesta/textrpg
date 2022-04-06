@@ -24,5 +24,12 @@ namespace TextRpg
             description = desc;
             clues = cls;
         }
+        public Place(ushort[] loc, string nam, string desc, Clue cl)
+        {
+            location = loc;
+            name = nam;
+            description = desc;
+            clues = new Clue[] { cl };
+        }
     }
 }

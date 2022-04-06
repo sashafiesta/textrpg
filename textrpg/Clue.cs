@@ -7,13 +7,24 @@ using System.Threading.Tasks;
 namespace TextRpg
 {
     class Clue
-    {   
-        public Action[] interactionsF;
+    {
+        public string name;
+        public Action[] actions;
         public bool canReturn;
+        public string descripion;
 
-        public Clue(Action[] actions, bool canGoBack = true)
+        public Clue(string nam, string desc, Action[] actionsArr, bool canGoBack = true)
         {
-            interactionsF = actions;
+            name = nam;
+            descripion = desc;
+            actions = actionsArr;
+            canReturn = canGoBack;
+        }
+        public Clue(string nam, string desc, Action action, bool canGoBack = true)
+        {
+            name = nam;
+            descripion = desc;
+            actions = new Action[] { action };
             canReturn = canGoBack;
         }
     }
